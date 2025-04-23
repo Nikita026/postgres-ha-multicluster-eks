@@ -5,9 +5,6 @@
 crash.log
 *.log
 
-# Local .tfvars file, as it contains sensitive information
-terraform.tfvars
-
 # .terraform.lock.hcl file for Terraform provider versions
 .terraform.lock.hcl
 

@@ -1,0 +1,13 @@
+provider_region = "us-east-1"
+prefix          = "test"
+vpc_cidr        = "10.0.0.0/16"
+cluster_name_1    = "cluster1"
+cluster_name_2    = "cluster2"
+eks_node_type   = "t3.small"
+eks_node_desired_size = 2
+postgres_password            = ""
+postgres_replication_password = ""
+storage_size = "5Gi"
+replica_count = "1"
+namespace = "postgres-ha"
+database_name = "mydb"
