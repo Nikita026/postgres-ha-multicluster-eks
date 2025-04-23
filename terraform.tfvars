@@ -1,5 +1,5 @@
 provider_region = "us-east-1"
-prefix          = "sg"
+prefix          = "scg"
 vpc_cidr        = "10.0.0.0/16"
 cluster_name_1    = "sg-cluster-1"
 cluster_name_2    = "sg-cluster-2"
