@@ -32,24 +32,24 @@ module "eks" {
 
   eks_managed_node_groups = {
     "${var.cluster_name}-ng" = {
-      ami_type = "AL2_x86_64"
-      instance_types = [var.eks_node_type]
-      min_size     = 1
-      max_size     = 5
-      desired_size = var.eks_node_desired_size
+      ami_type        = "AL2_x86_64"
+      instance_types  = [var.eks_node_type]
+      min_size        = 1
+      max_size        = 5
+      desired_size    = var.eks_node_desired_size
       create_iam_role = true
       iam_role_additional_policies = {
         AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
-        AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+        AmazonEBSCSIDriverPolicy     = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
       }
       tags = {
         Name = "${var.cluster_name}-ng"
       }
     }
   }
-  
+
   enable_cluster_creator_admin_permissions = true
-  
+
   tags = {
     Name = var.cluster_name
   }

@@ -1,9 +1,9 @@
 resource "helm_release" "postgres_primary" {
-  name       = "pg-primary"
-  repository = "oci://registry-1.docker.io/bitnamicharts"
-  chart      = "postgresql"
-  version    = "16.6.3"
-  namespace  = var.namespace
+  name             = "pg-primary"
+  repository       = "oci://registry-1.docker.io/bitnamicharts"
+  chart            = "postgresql"
+  version          = "16.6.3"
+  namespace        = var.namespace
   create_namespace = true
 
   set {
