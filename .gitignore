@@ -1,0 +1,26 @@
+# Terraform files
+*.tfstate
+*.tfstate.*
+*.terraform/
+crash.log
+*.log
+
+# Local .tfvars file, as it contains sensitive information
+terraform.tfvars
+
+# .terraform.lock.hcl file for Terraform provider versions
+.terraform.lock.hcl
+
+# Kubernetes configuration files (optional)
+kubeconfig
+
+# IDE-specific files
+.idea/
+.vscode/
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
