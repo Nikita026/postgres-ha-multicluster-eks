@@ -1,8 +1,8 @@
 provider_region = "us-east-1"
 prefix          = "scg"
 vpc_cidr        = "10.0.0.0/16"
-cluster_name_1    = "sg-cluster-1"
-cluster_name_2    = "sg-cluster-2"
+cluster_name_1    = "scg-cluster-1"
+cluster_name_2    = "scg-cluster-2"
 eks_node_type   = "t3.small"
 eks_node_desired_size = 2
 postgres_password            = ""
