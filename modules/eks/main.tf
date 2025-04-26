@@ -42,15 +42,41 @@ module "eks" {
         AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
         AmazonEBSCSIDriverPolicy     = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
       }
+      vpc_security_group_ids = [resource.aws_security_group.psql_sg.id]
       tags = {
         Name = "${var.cluster_name}-ng"
       }
     }
   }
 
+
   enable_cluster_creator_admin_permissions = true
 
   tags = {
     Name = var.cluster_name
+  }
+}
+
+resource "aws_security_group" "psql_sg" {
+  name        = "${var.cluster_name}-node-sg"
+  description = "Security group for EKS node group allowing PostgreSQL access"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr] # Allow traffic from VPC CIDR block
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.cluster_name}-node-sg"
   }
 }

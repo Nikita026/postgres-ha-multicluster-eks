@@ -49,26 +49,30 @@ variable "postgres_replication_password" {
   sensitive   = true
 }
 
-variable "storage_size" {
-  description = "Size of the primary PostgreSQL persistent volume"
-  type        = string
-  default     = "8Gi"
-}
-
-variable "replica_count" {
-  description = "Number of read replicas for the PostgreSQL instance"
-  type        = number
-  default     = 0
-}
-
 variable "namespace" {
   description = "Kubernetes namespace where PostgreSQL is deployed"
   type        = string
   default     = "postgres-ha"
 }
 
-variable "database_name" {
-  description = "Name of the PostgreSQL database"
+variable "etcd_replica_count" {
+  description = "Number of etcd replicas"
+  type        = number
+  default     = 2
+}
+
+variable "etcd_storage_size" {
+  description = "Persistent volume size for etcd"
   type        = string
-  default     = "mydb"
+  default     = "5Gi"
+}
+
+variable "values1_yaml_path" {
+  description = "Path to the values.yaml file for the Helm chart"
+  type        = string
+}
+
+variable "values2_yaml_path" {
+  description = "Path to the values.yaml file for the Helm chart"
+  type        = string
 }

@@ -16,6 +16,7 @@ module "eks_cluster_1" {
   private_subnets       = module.vpc.private_subnet_ids
   eks_node_type         = var.eks_node_type
   eks_node_desired_size = var.eks_node_desired_size
+  vpc_cidr              = var.vpc_cidr
 }
 
 module "eks_cluster_2" {
@@ -26,33 +27,43 @@ module "eks_cluster_2" {
   private_subnets       = module.vpc.private_subnet_ids
   eks_node_type         = var.eks_node_type
   eks_node_desired_size = var.eks_node_desired_size
+  vpc_cidr              = var.vpc_cidr
 }
 
-module "postgres_primary" {
-  source                        = "./modules/db-primary"
-  cluster_name                  = var.cluster_name_1
+module "etcd" {
+  source = "./modules/etcd"
+
+  cluster_endpoint       = module.eks_cluster_1.cluster_endpoint
+  cluster_ca_certificate = module.eks_cluster_1.cluster_certificate_authority
+  cluster_name           = var.cluster_name_1
+  etcd_replica_count     = var.etcd_replica_count
+  etcd_storage_size      = var.etcd_storage_size
+}
+
+module "stolon_1" {
+  source = "./modules/stolon"
+
   cluster_endpoint              = module.eks_cluster_1.cluster_endpoint
   cluster_ca_certificate        = module.eks_cluster_1.cluster_certificate_authority
+  cluster_name                  = var.cluster_name_1
   postgres_password             = var.postgres_password
   postgres_replication_password = var.postgres_replication_password
-  provider_region               = var.provider_region
-  storage_size                  = var.storage_size
+  etcd_endpoint                 = module.etcd.etcd_endpoint
   namespace                     = var.namespace
-  replica_count                 = var.replica_count
-  database_name                 = var.database_name
+  values_yaml_path              = var.values1_yaml_path
+
 }
 
-module "postgres_standby" {
-  source                        = "./modules/db-standby"
-  cluster_name                  = var.cluster_name_2
+module "stolon_2" {
+  source = "./modules/stolon"
+
   cluster_endpoint              = module.eks_cluster_2.cluster_endpoint
   cluster_ca_certificate        = module.eks_cluster_2.cluster_certificate_authority
+  cluster_name                  = var.cluster_name_2
   postgres_password             = var.postgres_password
   postgres_replication_password = var.postgres_replication_password
-  primary_host                  = module.postgres_primary.primary_load_balancer_dns
-  storage_size                  = var.storage_size
+  etcd_endpoint                 = module.etcd.etcd_endpoint
   namespace                     = var.namespace
-  database_name                 = var.database_name
+  values_yaml_path              = var.values2_yaml_path
 
 }
-
